@@ -14,5 +14,12 @@ class CustomersController < ApplicationController
   	else
   		@customers=[]
   	end
+
+    # existing index method
+    respond_to do |format|
+      format.html {}
+      format.json { render json: @customers }
+    end
+    
   end
 end
