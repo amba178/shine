@@ -5,7 +5,6 @@
 </header>
 <section class="search-form">
 	<form>
-    <div class="input-group input-group-lg">
       <label for="keywords" class="sr-only">
         Keyword
       </label>
@@ -13,20 +12,11 @@
              name="keywords"
              class="form-control input-lg"
              placehold="First Name, Last Name, or Email Address"
+             ng-change = "search(keywords)"
              ng-model="keywords">
-             <span class="input-group-btn">
-               <button class="btn btn-primary btn-lg"
-                        ng-click="search(keywords)">
-                     Find Customers
-                </button>
-             </span>
-    </div>
+      </div>
   </form>
-  <h1 class="searchedFor" ng-if="searchedFor">
-    <small>Searched For:</small> {{searchedFor}}
-  </h1>
 </section>
-
 
 <section class="search-results">
   <header>
