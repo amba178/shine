@@ -13,6 +13,11 @@ gem 'bower-rails'
 gem 'faker'
 group :development, :test do
   gem 'byebug'
+  gem 'rspec-rails'
+  gem 'poltergeist'
+  gem 'database_cleaner'
+  gem 'selenium-webdriver'
+  gem 'chromedriver-helper'
 end
 
 group :development do

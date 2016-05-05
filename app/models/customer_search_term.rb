@@ -24,9 +24,7 @@ private
     @where_clause << " OR #{case_insensitive_search(:email)}"
     @where_args[:email] = search_term
 
-    @order = "lower(email) = " + 
-      ActiveRecord::Base.connection.quote(search_term) + 
-      " desc, last_name asc"
+    @order = "lower(email) = " + ActiveRecord::Base.connection.quote(search_term) + " desc, last_name asc"
   end
   # "salemamba12345@gmail.com".gsub(/@.*$/,'').gsub(/[0-9]+/,'')
   #=> "salemamba"

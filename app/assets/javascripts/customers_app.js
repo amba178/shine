@@ -10,9 +10,8 @@ app.controller('CustomerSearchController', ['$scope', '$http',
 				return;
 			}
 			
-			$http.get("/customers.json", 
-				     {"params": {"keywords": searchTerm,
-				     "page": page}}
+			$http.get("/customers.json", {"params": {"keywords": searchTerm,
+				       "page": page}}
 		    ).then(function(response) {
 		    	$scope.customers = response.data;
 		    }, function(respsone) {

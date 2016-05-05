@@ -5,8 +5,8 @@
 </header>
 <section class="search-form">
 	<form>
-      <label for="keywords" class="sr-only">
-        Keyword
+      <label for="search.keywords" class="sr-only">
+        Keywords
       </label>
       <input type="text" 
              name="keywords"
@@ -18,15 +18,14 @@
   </form>
 </section>
 
-<section class="search-results">
+<section class="search-results" ng-if="customers.length > 0">
   <header>
     <h1 class="h3">Results</h1>
   </header>
   <%= render partial: "pager", locals: {keywords: @keywords, page: @page} %> 
   <ol class="list-group">
     
-    <li class="list-group-item clearfix"
-     ng-repeat="customer in customers">
+    <li class="list-group-item clearfix" ng-repeat="customer in customers">
       <h3 class="pull-right">
         <small class="text-uppercase">
           Joined </small>
