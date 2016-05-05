@@ -11,6 +11,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem 'bower-rails'
 gem 'faker'
+# gem 'sprockets-rails', '2.3.3'
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
@@ -18,6 +19,7 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
+  gem 'teaspoon-jasmine'
 end
 
 group :development do

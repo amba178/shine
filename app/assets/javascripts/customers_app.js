@@ -14,7 +14,7 @@ app.controller('CustomerSearchController', ['$scope', '$http',
 				       "page": page}}
 		    ).then(function(response) {
 		    	$scope.customers = response.data;
-		    }, function(respsone) {
+		    }, function(response) {
 		    	alert(`There was a problem: ${response.status}`);
 		    }
 		  );
