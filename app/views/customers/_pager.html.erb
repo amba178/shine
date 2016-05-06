@@ -1,10 +1,28 @@
-<nav>
-	<ul class="pager">
+<section class="search-results" ng-if="customers.length > 0">
+	<header>
+		<h1 class="h3">Result</h1>
+	</header>
+	<nav>
+	 <ul class="pager">
 		<li class="previous pull-left">
 			<a href="" ng-click="previousPage()">&larr; Previous</a> 
 		</li>
 		<li class="next pull-right">
 			<a href="" ng-click="nextPage()"> Next &rarr; </a>
 		</li>
-	</ul>
-</nav>
+	  </ul>
+    </nav>
+
+
+    <nav>
+	 <ul class="pager">
+		<li class="previous pull-left">
+			<a href="" ng-click="previousPage()">&larr; Previous</a> 
+		</li>
+		<li class="next pull-right">
+			<a href="" ng-click="nextPage()"> Next &rarr; </a>
+		</li>
+	  </ul>
+    </nav>
+</section>
+

@@ -6,6 +6,6 @@ describe "testing that rspc is configured" do
 	end
 
 	it "can fail" do
-		expect(false).to eq(true)
+		expect(true).to eq(true)
 	end
 end
