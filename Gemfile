@@ -22,7 +22,6 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'chromedriver-helper'
   gem 'teaspoon-jasmine'
-
 end
 
 group :development do

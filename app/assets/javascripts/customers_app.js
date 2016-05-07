@@ -1,4 +1,4 @@
-var app = angular.module('customers', ['ngRoute', 'templates']);
+var app = angular.module('customers', ['ngRoute', 'templates', 'ngResource']);
 
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {
@@ -12,21 +12,24 @@ app.config(['$routeProvider', function($routeProvider) {
  }
 ]);
 
-app.controller('CustomerDetailController', ['$scope','$http','$routeParams', 
-	function ($scope, $http, $routeParams) {
-		var customerId = $routeParams.id;
-		$scope.customer = {};
+app.controller("CustomerCreditCardController", ["$scope", "$resource", 
+	  		function($scope, $resource) {
+	  			var CreditCardInfo = $resource('/fake_billing.json')
+	  			$scope.setCardholderId = function(cardholderId) {
+	  			 $scope.creditCard = CreditCardInfo.get(
+	  			 	{"cardholder_id": cardholderId}
+	  			  )
+	  			}
+	  		}
+	]);
 
-		$http.get(
-			'/customers/'+ customerId + '.json'
-			).then(function(response) {
-				$scope.customer = response.data;
-			}, function(response) {
-				alert(`There was a problem: ${response.status}`);
-			}
-		 );
-	
-}
+app.controller('CustomerDetailController', ['$scope','$http','$routeParams','$resource', 
+	function ($scope, $http, $routeParams, $resource) {
+		$scope.customer_id = $routeParams.id;
+		var Customer = $resource('/customers/:customerId.json')
+		$scope.customer = Customer.get({"customerId": $scope.customer_id})
+		// alert("Ajax Call Initiated!");
+	}
 
 ]);
 

@@ -1,10 +1,209 @@
-<article class="customer-details">
-	<h1>Customer {{customer.id}}</h1>
-	<h2>{{customer.first_name}} {{customer.last_name}}</h2>
-	<h3>{{customer.email}}</h3>
-	<h4>{{customer.username}}</h4>
-	<h5>
-		<small class="text-uppercase">Joined</small>
-		{{customer.created_at | date }}
-	</h5>
-</article>
+<div class="container"> 
+<div class="row">
+    <div class="col-md-6">
+     <article class="panel panel-primary"> 
+     	<header class="panel-heading">
+		  <h1>Customer</h1>
+        </header>
+     <section class="panel-body">    
+		<div class="row">
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="sr-only" for="first-name">
+						First Name
+					</label>
+					<input type="text" class="form-control"
+					 name="first-name" ng-model="customer.first_name">
+				</div>
+			</div>
+			<!-- last of first name -->
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="sr-only" for="last-name">
+						Last Name
+					</label>
+					<input type="text" class="form-control" name="last-name" ng-model="customer.last_name">
+				</div>
+			</div>
+			<!-- last name -->
+
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="sr-only" for="username">
+						Username
+					</label>
+					<div class="input-group">
+						<div class="input-group-addon">@</div>
+						<input type="text" class="form-control" name="username" ng-model="customer.username">
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<!-- end of row-->
+
+
+
+		 <div class="form-group">
+				<label class="sr-only" for="email">
+					Email
+				</label>
+				<input type="text" class="form-control" name="email" ng-model="customer.email">
+		  </div>
+	   </section> 
+        <footer class="panel-footer">
+		    <label for="joined"> Joined</label> {{ customer.joined_at | date }}
+		</footer>
+
+       </article>
+
+       <!-- starting of shipping panel -->
+        <article class="panel panel-default"> 
+     	     <header class="panel-heading">
+		       <h2>Shipping Address</h2>
+		     </header>
+		    <!-- street address start -->
+		 <section class="panel-body"> 
+		    <div class="form-group">
+		    	<label class="sr-only" for="street-address">
+		    		Street Address
+		    	</label>
+		    	<input type="text" class="form-control"
+		    	name="street-address" ng-model="customer.shipping_street">
+		    </div>
+		    <!-- end of street address -->
+
+		    <div class="form-group">
+		    	<label class="sr-only" for="street-address-extra">
+		    		Street Address Extra
+		    	</label>
+		    	<input type="text" class="form-control"
+		    	name="street-address-extra" ng-model="customer.shipping_street">
+		    </div>
+		    <!-- end of extra street address -->
+
+		    <div class="row">
+		    	<div class="col-md-6">
+		    		<div class="form-group">
+		    			<label class="sr-only" for="city">
+		    				City
+		    			</label>
+		    			<input type="text" class="form-control"
+		    			 name="city" ng-model="customer.shipping_city">
+		    		</div>
+		    	</div>
+		    	<!-- end of city -->
+		    	<div class="col-md-2">
+		    		<div class="forom-group">
+		    			<label class="sr-only" for="state">
+		    				State
+		    			</label>
+		    			<input type="text" class="form-control" name="state" ng-model="customer.shipping_state">
+		    		</div>
+		    	</div>
+		    	<!-- end of state -->
+		    	<div class="col-md-4">
+		    		<div class="form-group">
+		    			<label class="sr-only" for="zip"> Zip</label>
+		    		  <input type="text" class="form-control" name="zip"
+		    		     ng-model="customer.shipping_zipcode">
+		    	    </div>
+		        </div>
+		    </div>
+		    <!-- end of row -->
+		 </section>
+		</article>
+    </div>
+
+	   <!-- billing info -->
+       <div class="col-md-6">
+       	<article class="panel panel-default" ng-controller="CustomerCreditCardController" ng-init="setCardholderId(customer_id)"> 
+       	  <header class="panel-heading"> 
+       	    <h2 > Billing Info</h2>
+       	</header>
+       	<section class="panel-body"> 
+       	 <div class="row">
+       	 	<div ng-if="!creditCard.$resolved">
+       	 		<!-- laoding animation will go here -->
+       	 		<div class="col-md-10 col-md-offset-1">
+       	 			<aside class="progress">
+       	 				<div class="progress-bar progress-bar-striped active" style="width: 100%">
+       	 					Loading...
+
+       	 				</div>
+       	 			</aside>
+       	 		</div>
+       	 	</div>
+       	 	<div class="col-md-7" ng-if="creditCard.$resolved">
+       		  <p>
+       			 ****-****-****-{{creditCard.lastFour}}
+       			 <span class="label label-success">{{creditCard.cardType}}</span>
+       		  </p>
+       		  <p>
+       			<label>Expire:</label> {{creditCard.expirationMonth}}/{{creditCard.expirationYear}}
+       		  </p>
+       	   </div>
+       	   <div class="col-md-5 text-right" ng-if="creditCard.$resolved">
+       	   	<a href="{{creditCard.detailsLink}}" class="btn btn-lg btn-default">View Details...</a>
+       		</div>
+       	</div>
+        <hr>
+        <div class="well well-sm">
+         	 <h2 class="h5"> Billing Address <input type="checkbox"> Same as shipping?</h3>
+
+       	      <!-- street address start -->
+		    <div class="form-group">
+		    	<label class="sr-only" for="street-address">
+		    		Street Address
+		    	</label>
+		    	<input type="text" class="form-control"
+		    	name="street-address" ng-model="customer.billing_street">
+		    </div>
+		    <!-- end of street address -->
+
+		    <div class="form-group">
+		    	<label class="sr-only" for="street-address-extra">
+		    		Street Address Extra
+		    	</label>
+		    	<input type="text" class="form-control"
+		    	name="street-address-extra" ng-model="customer.billing_street">
+		    </div>
+		    <!-- end of extra street address -->
+
+		    <div class="row">
+		    	<div class="col-md-6">
+		    		<div class="form-group">
+		    			<label class="sr-only" for="city">
+		    				City
+		    			</label>
+		    			<input type="text" class="form-control"
+		    			 name="city" ng-model="customer.billing_city">
+		    		</div>
+		    	</div>
+		    	<!-- end of city -->
+		    	<div class="col-md-2">
+		    		<div class="forom-group">
+		    			<label class="sr-only" for="state">
+		    				State
+		    			</label>
+		    			<input type="text" class="form-control" name="state" ng-model="customer.billing_state">
+		    		</div>
+		    	</div>
+		    	<!-- end of state -->
+		    	<div class="col-md-4">
+		    		<div class="form-group">
+		    			<label class="sr-only" for="zip"> Zip</label>
+		    		  <input type="text" class="form-control" name="zip"
+		    		     ng-model="customer.billing_zipcode">
+		    	    </div>
+		        </div>
+		    </div>
+		    <!-- end of row -->
+		</div>
+		</section>
+		</article>
+    
+</div>
+</div>
+
+
