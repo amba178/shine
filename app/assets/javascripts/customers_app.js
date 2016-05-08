@@ -1,5 +1,5 @@
-var app = angular.module('customers', ['ngRoute', 'templates', 'ngResource']);
-
+var app = angular.module('customers', ['ngRoute', 'templates', 
+	'ngResource', 'ngMessages','ui.bootstrap']);
 app.config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/', {
 		controller: "CustomerSearchController",
@@ -11,6 +11,7 @@ app.config(['$routeProvider', function($routeProvider) {
 
  }
 ]);
+
 
 app.controller("CustomerCreditCardController", ["$scope", "$resource", 
 	  		function($scope, $resource) {
@@ -24,14 +25,78 @@ app.controller("CustomerCreditCardController", ["$scope", "$resource",
 	]);
 
 app.controller('CustomerDetailController', ['$scope','$http','$routeParams','$resource', 
-	function ($scope, $http, $routeParams, $resource) {
+	"$uibModal", function ($scope, $http, $routeParams, $resource, $uibModal) {
 		$scope.customer_id = $routeParams.id;
-		var Customer = $resource('/customers/:customerId.json')
+		var Customer = $resource('/customers/:customerId.json', 
+		{"customerId": "@customer_id"},{"save": {"method": "PUT"}});
 		$scope.customer = Customer.get({"customerId": $scope.customer_id})
 		// alert("Ajax Call Initiated!");
+
+		$scope.deactivate = function() {
+			var modalInstance = $uibModal.open({ 
+				templateUrl: 'confirm_deactivate.html',
+				$controller: 'ConfirmDeactivateController'
+			});
+
+			modalInstance.result.then(function() {
+				$scope.alert = 
+				{ 
+					type: "success",
+				     message: "Customer deactivated"  
+				 }  
+				},
+				 function(reason) {  
+					$scope.alert = {   
+						type: "warning",
+					     message: "Customer still active"
+					}
+				});
+		};
+		
+		$scope.save = function() {
+			if($scope.form.$valid){
+				$scope.customer.$save(function() {
+					$scope.form.$setPristine();
+					$scope.form.$setUntouched();
+					$scope.alert = {
+						type: "success",
+						message: "Customer successfully saved."
+					};
+
+				}, function() {
+					$scope.alert = {
+						type: "danger",
+						message: "Customer couldn't be saved."
+					};
+				}
+			  );
+			}
+		}
+		$scope.zipRex = /(^\d{5}$)|(^\d{5}-\d{4}$)/
+		$scope.emailRex = /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
+		$scope.checkboxModel = false;
+		$scope.closeAlert = function(index) {
+			$scope.alert = undefined;
+		}
+		// if($scope.checkboxModel){
+		// 	alert("checkbox set to true");
+		// }
 	}
 
 ]);
+
+app.controller("ConfirmDeactivateController", ["$scope", "$modalInstance",
+	function($scope, $modalInstance) {  
+	    alert(" I am in the confirm controller"); 
+		$scope.deactivate = function() { 
+			$modalInstance.close();  
+		};
+		$scope.nevermind = function() {
+			$modalInstance.dismiss('cancel');
+		}
+	}
+	])
+
 
 app.controller('CustomerSearchController', ['$scope', '$http','$location',
 	function ($scope, $http, $location) {

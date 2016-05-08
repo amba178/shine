@@ -26,6 +26,17 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 SET search_path = public, pg_catalog;
 
 --
+-- Name: customer_status; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE customer_status AS ENUM (
+    'signed_up',
+    'verified',
+    'inactive'
+);
+
+
+--
 -- Name: refresh_customer_details(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -88,7 +99,8 @@ CREATE TABLE customers (
     username character varying NOT NULL,
     email character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    status customer_status DEFAULT 'signed_up'::customer_status NOT NULL
 );
 
 
@@ -260,6 +272,7 @@ CREATE TABLE users (
     last_sign_in_ip inet,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
+    roles character varying[] DEFAULT '{}'::character varying[],
     CONSTRAINT email_must_be_company_email CHECK (((email)::text ~* '^[^@]+@example\.com'::text))
 );
 
@@ -483,4 +496,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160506061229');
 INSERT INTO schema_migrations (version) VALUES ('20160506210051');
 
 INSERT INTO schema_migrations (version) VALUES ('20160506220434');
+
+INSERT INTO schema_migrations (version) VALUES ('20160507201441');
+
+INSERT INTO schema_migrations (version) VALUES ('20160507202913');
 
